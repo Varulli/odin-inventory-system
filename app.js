@@ -8,7 +8,7 @@ const compression = require("compression");
 const RateLimit = require("express-rate-limit");
 const helmet = require("helmet");
 
-// Database connection setup
+// database connection setup
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
 
@@ -22,11 +22,11 @@ async function main() {
 }
 
 var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
+const inventoryRouter = require("./routes/inventory");
 
 var app = express();
 
-// Rate limiter setup
+// rate limiter setup
 const limiter = RateLimit({
   windowMs: 1 * 60 * 1000, // 1 minute
   max: 40, // limit each IP to 40 requests per windowMs
@@ -44,7 +44,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(compression());
 
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
+app.use("/inventory", inventoryRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

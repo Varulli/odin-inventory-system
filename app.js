@@ -17,6 +17,7 @@ const dev_uri =
 const uri = process.env.MONGODB_URI || dev_uri;
 
 main().catch((err) => console.log(err));
+
 async function main() {
   await mongoose.connect(uri);
 }

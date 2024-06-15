@@ -5,7 +5,7 @@ const router = express.Router();
 
 // GET inventory home page.
 router.get("/", function (req, res) {
-  res.render("index", { title: "Inventory Home" });
+  res.render("index", { title: "Exotic Animal Emporium" });
 });
 
 module.exports = router;

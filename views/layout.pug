@@ -2,6 +2,31 @@ doctype html
 html
   head
     title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet' href='/stylesheets/style.css')
+    link(rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200")
   body
+    block sidebar
+      nav
+        menu 
+          li 
+            a(href='/inventory')
+              span.material-symbols-outlined home 
+              | Home 
+          li
+            a(href="/inventory/mammals")
+              span.material-symbols-outlined sound_detection_dog_barking
+              | Mammals
+          li
+            a(href="/inventory/birds")
+              span.material-symbols-outlined raven
+              | Birds
+          li
+            a(href="/inventory/fish")
+              span.material-symbols-outlined set_meal
+              | Fish
+          li
+            a(href="/inventory/insects")
+              span.material-symbols-outlined pest_control
+              | Insects
+
     block content

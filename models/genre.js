@@ -6,7 +6,7 @@ const GenreSchema = new Schema({
 });
 
 GenreSchema.virtual("url").get(function () {
-  return "/inventory/genre/" + this.name.toLowerCase();
+  return "/inventory/genre/" + this.name.toLowerCase().replace(/ /g, "_");
 });
 
 module.exports = mongoose.model("Genre", GenreSchema);

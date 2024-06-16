@@ -8,7 +8,7 @@ const PublisherSchema = new Schema({
 });
 
 PublisherSchema.virtual("url").get(function () {
-  return "/inventory/publisher/" + this.name;
+  return "/inventory/publisher/" + this.name.toLowerCase();
 });
 
 PublisherSchema.virtual("time_of_creation_formatted").get(function () {

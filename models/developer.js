@@ -9,7 +9,7 @@ const DeveloperSchema = new Schema({
 });
 
 DeveloperSchema.virtual("url").get(function () {
-  return "/inventory/developer/" + this.name;
+  return "/inventory/developer/" + this.name.toLowerCase();
 });
 
 DeveloperSchema.virtual("time_of_creation_formatted").get(function () {

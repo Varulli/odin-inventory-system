@@ -2,4 +2,15 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}
+  p Explore the collection of: 
+  ul 
+    li
+      a(href="/inventory/games") Games (#{game_count})
+    li
+      a(href="/inventory/genres") Genres (#{genre_count})
+    li 
+      a(href="/inventory/platforms") Platforms (#{platform_count})
+    li
+      a(href="/inventory/developers") Developers (#{developer_count})
+    li
+      a(href="/inventory/publishers") Publishers (#{publisher_count})

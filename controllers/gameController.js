@@ -1,6 +1,37 @@
 const debug = require("debug")("odin-inventory-system:gameController");
 
 const Game = require("../models/game");
+const Genre = require("../models/genre");
+const Platform = require("../models/platform");
+const Developer = require("../models/developer");
+const Publisher = require("../models/publisher");
+
+const asyncHandler = require("express-async-handler");
+
+// GET inventory home page.
+exports.index = asyncHandler(async (req, res, next) => {
+  const [
+    game_count,
+    genre_count,
+    platform_count,
+    developer_count,
+    publisher_count,
+  ] = await Promise.all([
+    Game.countDocuments({}).exec(),
+    Genre.countDocuments({}).exec(),
+    Platform.countDocuments({}).exec(),
+    Developer.countDocuments({}).exec(),
+    Publisher.countDocuments({}).exec(),
+  ]);
+  res.render("index", {
+    title: "Videogame Inventory",
+    game_count: game_count,
+    genre_count: genre_count,
+    platform_count: platform_count,
+    developer_count: developer_count,
+    publisher_count: publisher_count,
+  });
+});
 
 // Display list of all Games.
 exports.game_list = function (req, res) {

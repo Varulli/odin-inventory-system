@@ -9,9 +9,7 @@ const developerController = require("../controllers/developerController");
 const publisherController = require("../controllers/publisherController");
 
 // GET inventory home page.
-router.get("/", function (req, res) {
-  res.render("index", { title: "Videogame Inventory" });
-});
+router.get("/", gameController.index);
 
 // GAME ROUTES //
 

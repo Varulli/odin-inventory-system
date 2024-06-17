@@ -9,11 +9,13 @@ const userArgs = process.argv.slice(2);
 
 const Game = require("./models/game");
 const Genre = require("./models/genre");
+const Platform = require("./models/platform");
 const Developer = require("./models/developer");
 const Publisher = require("./models/publisher");
 
 const games = [];
 const genres = [];
+const platforms = [];
 const developers = [];
 const publishers = [];
 
@@ -29,6 +31,7 @@ async function main() {
   await mongoose.connect(mongoDB);
   console.log("Debug: Should be connected?");
   await createGenres();
+  await createPlatforms();
   await createDevelopers();
   await createPublishers();
   await createGames();
@@ -44,6 +47,13 @@ async function genreCreate(index, name) {
   await genre.save();
   genres[index] = genre;
   console.log(`Added genre: ${name}`);
+}
+
+async function platformCreate(index, name) {
+  const platform = new Platform({ name: name });
+  await platform.save();
+  platforms[index] = platform;
+  console.log(`Added platform: ${name}`);
 }
 
 async function developerCreate(index, name, time_of_creation, type) {
@@ -76,6 +86,7 @@ async function gameCreate(
   time_of_creation,
   description,
   genre,
+  platform,
   developer,
   publisher
 ) {
@@ -83,6 +94,7 @@ async function gameCreate(
   if (time_of_creation) gameDetails.time_of_creation = time_of_creation;
   if (description) gameDetails.description = description;
   if (genre) gameDetails.genre = genre;
+  if (platform) gameDetails.platform = platform;
   if (developer) gameDetails.developer = developer;
   if (publisher) gameDetails.publisher = publisher;
 
@@ -103,6 +115,20 @@ async function createGenres() {
     genreCreate(2, "Role-Playing Game (RPG)"),
     genreCreate(3, "Third-Person Shooter"),
     genreCreate(4, "Turn-Based Strategy"),
+  ]);
+}
+
+async function createPlatforms() {
+  console.log("Removing existing platforms");
+  await Platform.deleteMany({});
+
+  console.log("Adding platforms");
+  await Promise.all([
+    platformCreate(0, "PC"),
+    platformCreate(1, "PlayStation 4"),
+    platformCreate(2, "Xbox One"),
+    platformCreate(3, "Nintendo Switch"),
+    platformCreate(4, "Mobile"),
   ]);
 }
 
@@ -145,7 +171,8 @@ async function createGames() {
       "The Witcher 3: Wild Hunt",
       2015,
       "The Witcher 3: Wild Hunt is a 2015 action role-playing game developed and published by CD Projekt.",
-      genres.slice(0, 3),
+      [genres[0], genres[1], genres[3]],
+      [platforms[0], platforms[1], platforms[2], platforms[3]],
       developers[0],
       publishers[0]
     ),
@@ -154,7 +181,8 @@ async function createGames() {
       "The Elder Scrolls V: Skyrim",
       2011,
       "The Elder Scrolls V: Skyrim is a 2011 action role-playing game developed by Bethesda Game Studios and published by Bethesda Softworks.",
-      genres.slice(0, 3),
+      [genres[0], genres[1], genres[3]],
+      [platforms[0], platforms[1], platforms[2], platforms[3]],
       developers[1],
       publishers[1]
     ),
@@ -164,6 +192,7 @@ async function createGames() {
       2011,
       "Dark Souls is a 2011 action role-playing game developed by FromSoftware and published by FromSoftware.",
       [genres[0], genres[2]],
+      [platforms[0], platforms[1], platforms[2], platforms[3]],
       developers[2],
       publishers[2]
     ),
@@ -173,6 +202,7 @@ async function createGames() {
       2016,
       "Uncharted 4: A Thief's End is a 2016 action-adventure game developed by Naughty Dog and published by Sony Interactive Entertainment.",
       [genres[0], genres[1], genres[3]],
+      [platforms[0], platforms[1]],
       developers[3],
       publishers[3]
     ),
@@ -182,6 +212,7 @@ async function createGames() {
       2017,
       "Slay the Spire is a 2017 roguelike deck-building game developed by Mega Crit and published by Humble Bundle.",
       [genres[4]],
+      [platforms[0], platforms[1], platforms[2], platforms[3], platforms[4]],
       developers[4],
       publishers[4]
     ),

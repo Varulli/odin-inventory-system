@@ -6,7 +6,12 @@ const PlatformSchema = new Schema({
 });
 
 PlatformSchema.virtual("url").get(function () {
-  return "/inventory/platform/" + this.name.toLowerCase().replace(/ /g, "_");
+  return (
+    "/inventory/platform/" +
+    this._id +
+    "/" +
+    this.name.toLowerCase().replace(/ /g, "_")
+  );
 });
 
 module.exports = mongoose.model("Platform", PlatformSchema);

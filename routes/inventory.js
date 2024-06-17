@@ -46,19 +46,19 @@ router.get("/genre/create", genreController.genre_create_get);
 router.post("/genre/create", genreController.genre_create_post);
 
 // GET request to delete Genre.
-router.get("/genre/:name/delete", genreController.genre_delete_get);
+router.get("/genre/:id/*/delete", genreController.genre_delete_get);
 
 // POST request to delete Genre.
-router.post("/genre/:name/delete", genreController.genre_delete_post);
+router.post("/genre/:id/*/delete", genreController.genre_delete_post);
 
 // GET request to update Genre.
-router.get("/genre/:name/update", genreController.genre_update_get);
+router.get("/genre/:id/*/update", genreController.genre_update_get);
 
 // POST request to update Genre.
-router.post("/genre/:name/update", genreController.genre_update_post);
+router.post("/genre/:id/*/update", genreController.genre_update_post);
 
 // GET request for one Genre.
-router.get("/genre/:name", genreController.genre_detail);
+router.get("/genre/:id/*", genreController.genre_detail);
 
 // GET request for list of all Genre items.
 router.get("/genres", genreController.genre_list);
@@ -72,19 +72,19 @@ router.get("/platform/create", platformController.platform_create_get);
 router.post("/platform/create", platformController.platform_create_post);
 
 // GET request to delete Platform.
-router.get("/platform/:name/delete", platformController.platform_delete_get);
+router.get("/platform/:id/*/delete", platformController.platform_delete_get);
 
 // POST request to delete Platform.
-router.post("/platform/:name/delete", platformController.platform_delete_post);
+router.post("/platform/:id/*/delete", platformController.platform_delete_post);
 
 // GET request to update Platform.
-router.get("/platform/:name/update", platformController.platform_update_get);
+router.get("/platform/:id/*/update", platformController.platform_update_get);
 
 // POST request to update Platform.
-router.post("/platform/:name/update", platformController.platform_update_post);
+router.post("/platform/:id/*/update", platformController.platform_update_post);
 
 // GET request for one Platform.
-router.get("/platform/:name", platformController.platform_detail);
+router.get("/platform/:id/*", platformController.platform_detail);
 
 // GET request for list of all Platform items.
 router.get("/platforms", platformController.platform_list);
@@ -98,25 +98,25 @@ router.get("/developer/create", developerController.developer_create_get);
 router.post("/developer/create", developerController.developer_create_post);
 
 // GET request to delete Developer.
-router.get("/developer/:name/delete", developerController.developer_delete_get);
+router.get("/developer/:id/*/delete", developerController.developer_delete_get);
 
 // POST request to delete Developer.
 router.post(
-  "/developer/:name/delete",
+  "/developer/:id/*/delete",
   developerController.developer_delete_post
 );
 
 // GET request to update Developer.
-router.get("/developer/:name/update", developerController.developer_update_get);
+router.get("/developer/:id/*/update", developerController.developer_update_get);
 
 // POST request to update Developer.
 router.post(
-  "/developer/:name/update",
+  "/developer/:id/*/update",
   developerController.developer_update_post
 );
 
 // GET request for one Developer.
-router.get("/developer/:name", developerController.developer_detail);
+router.get("/developer/:id/*", developerController.developer_detail);
 
 // GET request for list of all Developer items.
 router.get("/developers", developerController.developer_list);
@@ -130,25 +130,25 @@ router.get("/publisher/create", publisherController.publisher_create_get);
 router.post("/publisher/create", publisherController.publisher_create_post);
 
 // GET request to delete Publisher.
-router.get("/publisher/:name/delete", publisherController.publisher_delete_get);
+router.get("/publisher/:id/*/delete", publisherController.publisher_delete_get);
 
 // POST request to delete Publisher.
 router.post(
-  "/publisher/:name/delete",
+  "/publisher/:id/*/delete",
   publisherController.publisher_delete_post
 );
 
 // GET request to update Publisher.
-router.get("/publisher/:name/update", publisherController.publisher_update_get);
+router.get("/publisher/:id/*/update", publisherController.publisher_update_get);
 
 // POST request to update Publisher.
 router.post(
-  "/publisher/:name/update",
+  "/publisher/:id/*/update",
   publisherController.publisher_update_post
 );
 
 // GET request for one Publisher.
-router.get("/publisher/:name", publisherController.publisher_detail);
+router.get("/publisher/:id/*", publisherController.publisher_detail);
 
 // GET request for list of all Publisher items.
 router.get("/publishers", publisherController.publisher_list);

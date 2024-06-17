@@ -5,6 +5,7 @@ const Genre = require("../models/genre");
 
 const asyncHandler = require("express-async-handler");
 const { isValidObjectId } = require("mongoose");
+const { checkSchema, validationResult } = require("express-validator");
 
 // Display list of all Genres.
 exports.genre_list = asyncHandler(async (req, res, next) => {
@@ -38,9 +39,34 @@ exports.genre_create_get = asyncHandler(async (req, res, next) => {
 });
 
 // Handle Genre create on POST.
-exports.genre_create_post = function (req, res) {
-  res.send("NOT IMPLEMENTED: Genre create POST");
-};
+exports.genre_create_post = [
+  checkSchema({
+    name: {
+      in: ["body"],
+      trim: true,
+      isLength: {
+        options: { min: 1 },
+        errorMessage: "* Name is a required field",
+      },
+      escape: true,
+    },
+  }),
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.render("genre_form", {
+        title: "Create Genre",
+        genre: req.body,
+        errors: new Map(errors.array().map((error) => [error.path, error.msg])),
+      });
+      return;
+    }
+
+    const genre = new Genre({ name: req.body.name });
+    await genre.save();
+    res.redirect(genre.url);
+  }),
+];
 
 // Display Genre delete form on GET.
 exports.genre_delete_get = function (req, res) {

@@ -2,12 +2,12 @@ extends layout
 
 block content 
   h1= title 
-  h2 Games
-    if genre_games.length
+  if genre_games.length
+    h2 Games
       dl
         each game in genre_games
           dt
             a(href=game.url) #{game.name}
           dd #{game.description}
-    else
-      p This genre has no games.
+  else
+    p This genre has no games.

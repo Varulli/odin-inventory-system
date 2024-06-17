@@ -5,5 +5,7 @@ block content
   form(method='POST')
     div.form-group
       label(for='name') Name:
-      input#name.form-control(type='text' name='name' required='required')
+      input#name.form-control(type='text' name='name' required value=(genre ? genre.name : ''))
+      p.form-error #{errors && errors.has('name') ? errors.get('name') : ''}
+
     button(type='submit') Submit

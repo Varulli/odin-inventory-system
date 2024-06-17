@@ -45,7 +45,7 @@ exports.genre_create_post = [
       trim: true,
       isLength: {
         options: { min: 1 },
-        errorMessage: "* Name is a required field",
+        errorMessage: "Name is a required field",
       },
       escape: true,
     },
@@ -105,17 +105,42 @@ exports.genre_delete_post = asyncHandler(async (req, res, next) => {
 });
 
 // Display Genre update form on GET.
-exports.genre_update_get = function (req, res) {
+exports.genre_update_get = asyncHandler(async (req, res, next) => {
   if (!isValidObjectId(req.params.id)) {
     const err = new Error("Invalid Genre ID");
     err.status = 404;
     return next(err);
   }
 
-  res.send("NOT IMPLEMENTED: Genre update GET");
-};
+  const genre = await Genre.findById(req.params.id).exec();
+  res.render("genre_form", { title: "Update Genre", genre });
+});
 
 // Handle Genre update on POST.
-exports.genre_update_post = function (req, res) {
-  res.send("NOT IMPLEMENTED: Genre update POST");
-};
+exports.genre_update_post = [
+  checkSchema({
+    name: {
+      in: ["body"],
+      trim: true,
+      isLength: {
+        options: { min: 1 },
+        errorMessage: "Name is a required field",
+      },
+      escape: true,
+    },
+  }),
+  asyncHandler(async (req, res, next) => {
+    if (!isValidObjectId(req.params.id)) {
+      const err = new Error("Invalid Genre ID");
+      err.status = 404;
+      return next(err);
+    }
+
+    const genre = new Genre({
+      _id: req.params.id,
+      name: req.body.name,
+    });
+    await Genre.findByIdAndUpdate(req.params.id, genre).exec();
+    res.redirect(genre.url);
+  }),
+];

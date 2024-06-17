@@ -87,9 +87,22 @@ exports.genre_delete_get = asyncHandler(async (req, res, next) => {
 });
 
 // Handle Genre delete on POST.
-exports.genre_delete_post = function (req, res) {
-  res.send("NOT IMPLEMENTED: Genre delete POST");
-};
+exports.genre_delete_post = asyncHandler(async (req, res, next) => {
+  if (!isValidObjectId(req.params.id)) {
+    const err = new Error("Invalid Genre ID");
+    err.status = 404;
+    return next(err);
+  }
+
+  await Promise.all([
+    Game.updateMany(
+      { genre: req.params.id },
+      { $pull: { genre: req.params.id } }
+    ).exec(),
+    Genre.findByIdAndDelete(req.params.id).exec(),
+  ]);
+  res.redirect("/inventory/genres");
+});
 
 // Display Genre update form on GET.
 exports.genre_update_get = function (req, res) {

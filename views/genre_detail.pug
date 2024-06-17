@@ -2,6 +2,7 @@ extends layout
 
 block content 
   h1= title 
+
   if genre_games.length
     h2 Games
       dl
@@ -11,3 +12,6 @@ block content
           dd #{game.description}
   else
     p This genre has no games.
+
+  a(href=genre.url+'/update') Update Genre
+  a(href=genre.url+'/delete') Delete Genre

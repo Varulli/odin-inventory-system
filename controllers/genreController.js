@@ -69,15 +69,16 @@ exports.genre_create_post = [
 ];
 
 // Display Genre delete form on GET.
-exports.genre_delete_get = function (req, res) {
+exports.genre_delete_get = asyncHandler(async (req, res, next) => {
   if (!isValidObjectId(req.params.id)) {
     const err = new Error("Invalid Genre ID");
     err.status = 404;
     return next(err);
   }
 
-  res.send("NOT IMPLEMENTED: Genre delete GET");
-};
+  const genre = await Genre.findById(req.params.id).exec();
+  res.render("genre_delete", { title: `Delete Genre: ${genre.name}` });
+});
 
 // Handle Genre delete on POST.
 exports.genre_delete_post = function (req, res) {

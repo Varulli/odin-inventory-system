@@ -1,8 +1,10 @@
 const debug = require("debug")("odin-inventory-system:genreController");
 
+const Game = require("../models/game");
 const Genre = require("../models/genre");
 
 const asyncHandler = require("express-async-handler");
+const { isValidObjectId } = require("mongoose");
 
 // Display list of all Genres.
 exports.genre_list = asyncHandler(async (req, res, next) => {
@@ -12,10 +14,22 @@ exports.genre_list = asyncHandler(async (req, res, next) => {
 
 // Display detail page for a specific Genre.
 exports.genre_detail = asyncHandler(async (req, res, next) => {
+  if (!isValidObjectId(req.params.id)) {
+    const err = new Error("Invalid Genre ID");
+    err.status = 404;
+    return next(err);
+  }
+
   const [genre, genre_games] = await Promise.all([
-    Genre.findOne({ name: req.params.name }).exec(),
-    Genre.find({ name: req.params.name }).populate("games").exec(),
+    Genre.findById(req.params.id).exec(),
+    Game.find({ genre: req.params.id }).exec(),
   ]);
+  console.log(genre_games);
+  res.render("genre_detail", {
+    title: `Genre: ${genre.name}`,
+    genre,
+    genre_games,
+  });
 });
 
 // Display Genre create form on GET.

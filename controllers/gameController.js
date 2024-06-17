@@ -25,11 +25,11 @@ exports.index = asyncHandler(async (req, res, next) => {
   ]);
   res.render("index", {
     title: "Videogame Inventory",
-    game_count: game_count,
-    genre_count: genre_count,
-    platform_count: platform_count,
-    developer_count: developer_count,
-    publisher_count: publisher_count,
+    game_count,
+    genre_count,
+    platform_count,
+    developer_count,
+    publisher_count,
   });
 });
 

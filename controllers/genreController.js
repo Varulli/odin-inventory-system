@@ -9,7 +9,7 @@ const { checkSchema, validationResult } = require("express-validator");
 
 // Display list of all Genres.
 exports.genre_list = asyncHandler(async (req, res, next) => {
-  const genres = await Genre.find().sort({ name: 1 }).exec();
+  const genres = await Genre.find({}, { name: 1 }).sort({ name: 1 }).exec();
   res.render("genre_list", { title: "List of Genres", genre_list: genres });
 });
 
@@ -23,9 +23,8 @@ exports.genre_detail = asyncHandler(async (req, res, next) => {
 
   const [genre, genre_games] = await Promise.all([
     Genre.findById(req.params.id).exec(),
-    Game.find({ genre: req.params.id }).exec(),
+    Game.find({ genre: req.params.id }, { name: 1, description: 1 }).exec(),
   ]);
-  console.log(genre_games);
   res.render("genre_detail", {
     title: `Genre: ${genre.name}`,
     genre,
@@ -76,8 +75,15 @@ exports.genre_delete_get = asyncHandler(async (req, res, next) => {
     return next(err);
   }
 
-  const genre = await Genre.findById(req.params.id).exec();
-  res.render("genre_delete", { title: `Delete Genre: ${genre.name}` });
+  const [genre, genre_games] = await Promise.all([
+    Genre.findById(req.params.id).exec(),
+    Game.find({ genre: req.params.id }, { name: 1, description: 1 }).exec(),
+  ]);
+  res.render("genre_delete", {
+    title: `Delete Genre: ${genre.name}`,
+    genre,
+    genre_games,
+  });
 });
 
 // Handle Genre delete on POST.

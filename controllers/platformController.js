@@ -38,24 +38,76 @@ exports.platform_detail = asyncHandler(async (req, res, next) => {
 });
 
 // Display Platform create form on GET.
-exports.platform_create_get = function (req, res) {
-  res.send("NOT IMPLEMENTED: Platform create GET");
-};
+exports.platform_create_get = asyncHandler(async (req, res, next) => {
+  res.render("platform_form", { title: "Create Platform" });
+});
 
 // Handle Platform create on POST.
-exports.platform_create_post = function (req, res) {
-  res.send("NOT IMPLEMENTED: Platform create POST");
-};
+exports.platform_create_post = [
+  checkSchema({
+    name: {
+      in: ["body"],
+      trim: true,
+      isLength: {
+        options: { min: 1 },
+        errorMessage: "Name is a required field",
+      },
+      escape: true,
+    },
+  }),
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.render("platform_form", {
+        title: "Create Form",
+        genre: req.body,
+        errors: new Map(errors.array().map((error) => [error.path, error.msg])),
+      });
+      return;
+    }
+
+    const platform = new Platform({ name: req.body.name });
+    await platform.save();
+    res.redirect(platform.url);
+  }),
+];
 
 // Display Platform delete form on GET.
-exports.platform_delete_get = function (req, res) {
-  res.send("NOT IMPLEMENTED: Platform delete GET");
-};
+exports.platform_delete_get = asyncHandler(async (req, res, next) => {
+  if (!isValidObjectId(req.params.id)) {
+    const err = new Error("Invalid Platform ID");
+    err.status = 404;
+    return next(err);
+  }
+
+  const [platform, platform_games] = await Promise.all([
+    Platform.findById(req.params.id).exec(),
+    Platform.find({ genre: req.params.id }, { name: 1, description: 1 }).exec(),
+  ]);
+  res.render("platform_delete", {
+    title: `Delete Platform: ${platform.name}`,
+    platform,
+    platform_games,
+  });
+});
 
 // Handle Platform delete on POST.
-exports.platform_delete_post = function (req, res) {
-  res.send("NOT IMPLEMENTED: Platform delete POST");
-};
+exports.platform_delete_post = asyncHandler(async (req, res, next) => {
+  if (!isValidObjectId(req.params.id)) {
+    const err = new Error("Invalid Platform ID");
+    err.status = 404;
+    return next(err);
+  }
+
+  await Promise.all([
+    Game.updateMany(
+      { platform: req.params.id },
+      { $pull: { platform: req.params.id } }
+    ).exec(),
+    Platform.findByIdAndDelete(req.params.id).exec(),
+  ]);
+  res.redirect("/inventory/platforms");
+});
 
 // Display Platform update form on GET.
 exports.platform_update_get = function (req, res) {

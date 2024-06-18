@@ -1,7 +1,7 @@
 const debug = require("debug")("odin-inventory-system:genreController");
 
-const Game = require("../models/game");
 const Genre = require("../models/genre");
+const Game = require("../models/game");
 
 const asyncHandler = require("express-async-handler");
 const { isValidObjectId } = require("mongoose");

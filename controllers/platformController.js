@@ -1,11 +1,22 @@
 const debug = require("debug")("odin-inventory-system:platformController");
 
 const Platform = require("../models/platform");
+const Game = require("../models/game");
+
+const asyncHandler = require("express-async-handler");
+const { isValidObjectId } = require("mongoose");
+const { checkSchema, validationResult } = require("express-validator");
 
 // Display list of all Platforms.
-exports.platform_list = function (req, res) {
-  res.send("NOT IMPLEMENTED: Platform list");
-};
+exports.platform_list = asyncHandler(async (req, res, next) => {
+  const platforms = await Platform.find({}, { name: 1 })
+    .sort({ name: 1 })
+    .exec();
+  res.render("platform_list", {
+    title: "List of Platforms",
+    platform_list: platforms,
+  });
+});
 
 // Display detail page for a specific Platform.
 exports.platform_detail = function (req, res) {

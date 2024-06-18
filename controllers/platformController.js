@@ -110,11 +110,42 @@ exports.platform_delete_post = asyncHandler(async (req, res, next) => {
 });
 
 // Display Platform update form on GET.
-exports.platform_update_get = function (req, res) {
-  res.send("NOT IMPLEMENTED: Platform update GET");
-};
+exports.platform_update_get = asyncHandler(async (req, res, next) => {
+  if (!isValidObjectId(req.params.id)) {
+    const err = new Error("Invalid Platform ID");
+    err.status = 404;
+    return next(err);
+  }
+
+  const platform = await Platform.findById(req.params.id).exec();
+  res.render("platform_form", { title: "Update Platform", platform });
+});
 
 // Handle Platform update on POST.
-exports.platform_update_post = function (req, res) {
-  res.send("NOT IMPLEMENTED: Platform update POST");
-};
+exports.platform_update_post = [
+  checkSchema({
+    name: {
+      in: ["body"],
+      trim: true,
+      isLength: {
+        options: { min: 1 },
+        errorMessage: "Name is a required field",
+      },
+      escape: true,
+    },
+  }),
+  asyncHandler(async (req, res, next) => {
+    if (!isValidObjectId(req.params.id)) {
+      const err = new Error("Invalid Platform ID");
+      err.status = 404;
+      return next(err);
+    }
+
+    const platform = new Platform({
+      _id: req.params.id,
+      name: req.body.name,
+    });
+    await Platform.findByIdAndUpdate(req.params.id, platform).exec();
+    res.redirect(platform.url);
+  }),
+];

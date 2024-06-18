@@ -19,9 +19,23 @@ exports.platform_list = asyncHandler(async (req, res, next) => {
 });
 
 // Display detail page for a specific Platform.
-exports.platform_detail = function (req, res) {
-  res.send("NOT IMPLEMENTED: Platform detail: " + req.params.id);
-};
+exports.platform_detail = asyncHandler(async (req, res, next) => {
+  if (!isValidObjectId(req.params.id)) {
+    const err = new Error("Invalid Platform ID");
+    err.status = 404;
+    return next(err);
+  }
+
+  const [platform, platform_games] = await Promise.all([
+    Platform.findById(req.params.id).exec(),
+    Game.find({ platform: req.params.id }, { name: 1, description: 1 }).exec(),
+  ]);
+  res.render("platform_detail", {
+    title: `Platform: ${platform.name}`,
+    platform,
+    platform_games,
+  });
+});
 
 // Display Platform create form on GET.
 exports.platform_create_get = function (req, res) {

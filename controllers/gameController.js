@@ -206,16 +206,15 @@ exports.game_delete_get = asyncHandler(async (req, res, next) => {
     return next(err);
   }
 
-  const [game, game_games] = await Promise.all([
-    Game.findById(req.params.id).exec(),
-    Game.find({ game: req.params.id }, { name: 1, description: 1 })
-      .sort({ name: 1 })
-      .exec(),
-  ]);
+  const game = await Game.findById(req.params.id)
+    .populate("genre", "name")
+    .populate("platform", "name")
+    .populate("developer", "name")
+    .populate("publisher", "name")
+    .exec();
   res.render("game_delete", {
     title: `Delete Game: ${game.name}`,
     game,
-    game_games,
   });
 });
 
@@ -227,10 +226,7 @@ exports.game_delete_post = asyncHandler(async (req, res, next) => {
     return next(err);
   }
 
-  await Promise.all([
-    Game.updateMany({ game: req.params.id }, { $unset: { game: "" } }).exec(),
-    Game.findByIdAndDelete(req.params.id).exec(),
-  ]);
+  await Game.findByIdAndDelete(req.params.id).exec();
   res.redirect("/inventory/games");
 });
 

@@ -7,6 +7,7 @@ block content
     div.form-group
       label(for='name') Name:
       input#name.form-control(type='text' name='name' required value=(platform ? platform.name : ''))
+      input#prev_name.form-control(type='hidden' name='prev_name' value=prev_name)
       if errors && errors.has('name')
         p.form-error * #{errors.get('name')}
 

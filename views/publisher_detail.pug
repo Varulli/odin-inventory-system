@@ -1,0 +1,17 @@
+extends layout 
+
+block content 
+  h1= title 
+
+  if publisher_games.length
+    h2 Games
+    dl
+      each game in publisher_games
+        dt
+          a(href=game.url) #{game.name}
+        dd #{game.description}
+  else
+    p This publisher has no games.
+
+  a.link-update(href=publisher.url+'/update') Update Publisher
+  a.link-delete(href=publisher.url+'/delete') Delete Publisher

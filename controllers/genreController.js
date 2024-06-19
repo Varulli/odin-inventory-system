@@ -165,7 +165,6 @@ exports.genre_update_post = [
         !errors.mapped().name ||
         errors.mapped().name.value !== req.body.prev_name)
     ) {
-      const genre = await Genre.findById(req.params.id).exec();
       res.render("genre_form", {
         title: "Update Genre",
         genre: req.body,

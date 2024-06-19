@@ -75,6 +75,7 @@ exports.developer_create_post = [
     },
     time_of_creation: {
       in: ["body"],
+      trim: true,
       isInt: {
         options: {
           min: min_time_of_creation,
@@ -82,6 +83,7 @@ exports.developer_create_post = [
         },
         errorMessage: `Time of Creation must be between ${min_time_of_creation} and ${max_time_of_creation}`,
       },
+      escape: true,
     },
     type: {
       in: ["body"],
@@ -151,7 +153,7 @@ exports.developer_delete_post = asyncHandler(async (req, res, next) => {
   await Promise.all([
     Game.updateMany(
       { developer: req.params.id },
-      { $pull: { developer: req.params.id } }
+      { $unset: { developer: "" } }
     ).exec(),
     Developer.findByIdAndDelete(req.params.id).exec(),
   ]);
@@ -170,10 +172,10 @@ exports.developer_update_get = asyncHandler(async (req, res, next) => {
   res.render("developer_form", {
     title: "Update Developer",
     developer,
+    prev_name: developer.name,
     min_time_of_creation,
     max_time_of_creation,
     types,
-    prev_name: developer.name,
   });
 });
 
@@ -199,6 +201,7 @@ exports.developer_update_post = [
     },
     time_of_creation: {
       in: ["body"],
+      trim: true,
       isInt: {
         options: {
           min: min_time_of_creation,
@@ -206,6 +209,7 @@ exports.developer_update_post = [
         },
         errorMessage: `Time of Creation must be between ${min_time_of_creation} and ${max_time_of_creation}`,
       },
+      escape: true,
     },
     type: {
       in: ["body"],
@@ -234,10 +238,10 @@ exports.developer_update_post = [
       res.render("developer_form", {
         title: "Update Developer",
         developer: req.body,
+        prev_name: req.body.prev_name,
         min_time_of_creation,
         max_time_of_creation,
         types,
-        prev_name: req.body.prev_name,
         errors: new Map(errors.array().map((error) => [error.path, error.msg])),
       });
       return;
@@ -246,6 +250,8 @@ exports.developer_update_post = [
     const developer = new Developer({
       _id: req.params.id,
       name: req.body.name,
+      time_of_creation: req.body.time_of_creation,
+      type: req.body.type,
     });
     await Developer.findByIdAndUpdate(req.params.id, developer).exec();
     res.redirect(developer.url);

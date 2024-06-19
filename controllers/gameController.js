@@ -69,10 +69,20 @@ exports.game_detail = asyncHandler(async (req, res, next) => {
 
 // Display Game create form on GET.
 exports.game_create_get = asyncHandler(async (req, res, next) => {
+  const [genres, platforms, developers, publishers] = await Promise.all([
+    Genre.find({}, { name: 1 }).sort({ name: 1 }).exec(),
+    Platform.find({}, { name: 1 }).sort({ name: 1 }).exec(),
+    Developer.find({}, { name: 1 }).sort({ name: 1 }).exec(),
+    Publisher.find({}, { name: 1 }).sort({ name: 1 }).exec(),
+  ]);
   res.render("game_form", {
     title: "Create Game",
     min_time_of_creation,
     max_time_of_creation,
+    genres,
+    platforms,
+    developers,
+    publishers,
   });
 });
 

@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const GameSchema = new Schema({
   name: { type: String, required: true, max: 100 },
   time_of_creation: { type: Number, min: 1960, max: DateTime.local().year },
-  description: { type: String, default: "N/A" },
+  description: { type: String },
   genre: [{ type: Schema.Types.ObjectId, ref: "Genre" }],
   platform: [{ type: Schema.Types.ObjectId, ref: "Platform" }],
   developer: { type: Schema.Types.ObjectId, ref: "Developer" },

@@ -55,7 +55,12 @@ exports.game_detail = asyncHandler(async (req, res, next) => {
     return next(err);
   }
 
-  const game = await Game.findById(req.params.id).exec();
+  const game = await Game.findById(req.params.id)
+    .populate("genre", "name")
+    .populate("platform", "name")
+    .populate("developer", "name")
+    .populate("publisher", "name")
+    .exec();
   res.render("game_detail", {
     title: `Game: ${game.name}`,
     game,

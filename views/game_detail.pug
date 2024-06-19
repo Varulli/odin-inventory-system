@@ -1,0 +1,41 @@
+extends layout 
+
+block content 
+  h1= title 
+
+  h2 Time of Creation
+  p= game.time_of_creation
+
+  h2 Description 
+  p= game.description
+
+  h2 Genre 
+  if !game.genre
+    p N/A
+  else
+    p 
+      each genre, index in game.genre
+        a(href=genre.url) #{genre.name}
+        if index < game.genre.length - 1
+          | , 
+
+  h2 Platforms
+  if !game.platform
+    p N/A
+  else
+    p
+      each platform, index in game.platform
+        a(href=platform.url) #{platform.name}
+        if index < game.platform.length - 1
+          | , 
+
+  h2 Developers
+  p
+    a(href=game.developer.url) #{game.developer.name}
+
+  h2 Publisher
+  p
+    a(href=game.publisher.url) #{game.publisher.name}
+
+  a.link-update(href=game.url+'/update') Update Game
+  a.link-delete(href=game.url+'/delete') Delete Game

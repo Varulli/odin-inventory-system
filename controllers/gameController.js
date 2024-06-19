@@ -143,8 +143,8 @@ exports.game_create_post = [
     },
     developer: {
       in: ["body"],
-      optional: { options: { values: "falsy" } },
       trim: true,
+      optional: { options: { values: "falsy" } },
       isMongoId: {
         errorMessage: "Invalid Developer ID",
       },
@@ -152,8 +152,8 @@ exports.game_create_post = [
     },
     publisher: {
       in: ["body"],
-      optional: { options: { values: "falsy" } },
       trim: true,
+      optional: { options: { values: "falsy" } },
       isMongoId: {
         errorMessage: "Invalid Publisher ID",
       },
@@ -184,15 +184,18 @@ exports.game_create_post = [
       return;
     }
 
-    const game = new Game({
+    const game_details = {
       name: req.body.name,
-      time_of_creation: req.body.time_of_creation,
-      description: req.body.description,
-      genre: req.body.genre,
-      platform: req.body.platform,
-      developer: req.body.developer,
-      publisher: req.body.publisher,
-    });
+    };
+    if (req.body.time_of_creation)
+      game_details.time_of_creation = req.body.time_of_creation;
+    if (req.body.description) game_details.description = req.body.description;
+    if (req.body.genre) game_details.genre = req.body.genre;
+    if (req.body.platform) game_details.platform = req.body.platform;
+    if (req.body.developer) game_details.developer = req.body.developer;
+    if (req.body.publisher) game_details.publisher = req.body.publisher;
+
+    const game = new Game(game_details);
     await game.save();
     res.redirect(game.url);
   }),
@@ -238,18 +241,37 @@ exports.game_update_get = asyncHandler(async (req, res, next) => {
     return next(err);
   }
 
-  const game = await Game.findById(req.params.id).exec();
+  const [game, genres, platforms, developers, publishers] = await Promise.all([
+    Game.findById(req.params.id).exec(),
+    Genre.find({}, { name: 1 }).sort({ name: 1 }).exec(),
+    Platform.find({}, { name: 1 }).sort({ name: 1 }).exec(),
+    Developer.find({}, { name: 1 }).sort({ name: 1 }).exec(),
+    Publisher.find({}, { name: 1 }).sort({ name: 1 }).exec(),
+  ]);
   res.render("game_form", {
     title: "Update Game",
     game,
     prev_name: game.name,
     min_time_of_creation,
     max_time_of_creation,
+    genres,
+    platforms,
+    developers,
+    publishers,
   });
 });
 
 // Handle Game update on POST.
 exports.game_update_post = [
+  (req, res, next) => {
+    if (!Array.isArray(req.body.genre))
+      req.body.genre =
+        typeof req.body.genre === "undefined" ? [] : [req.body.genre];
+    if (!Array.isArray(req.body.platform))
+      req.body.platform =
+        typeof req.body.platform === "undefined" ? [] : [req.body.platform];
+    next();
+  },
   checkSchema({
     name: {
       in: ["body"],
@@ -280,6 +302,38 @@ exports.game_update_post = [
       },
       escape: true,
     },
+    description: {
+      in: ["body"],
+      optional: { options: { values: "falsy" } },
+      trim: true,
+      escape: true,
+    },
+    "genre.*": {
+      in: ["body"],
+      escape: true,
+    },
+    "platform.*": {
+      in: ["body"],
+      escape: true,
+    },
+    developer: {
+      in: ["body"],
+      trim: true,
+      optional: { options: { values: "falsy" } },
+      isMongoId: {
+        errorMessage: "Invalid Developer ID",
+      },
+      escape: true,
+    },
+    publisher: {
+      in: ["body"],
+      trim: true,
+      optional: { options: { values: "falsy" } },
+      isMongoId: {
+        errorMessage: "Invalid Publisher ID",
+      },
+      escape: true,
+    },
   }),
   asyncHandler(async (req, res, next) => {
     if (!isValidObjectId(req.params.id)) {
@@ -287,6 +341,13 @@ exports.game_update_post = [
       err.status = 404;
       return next(err);
     }
+
+    const [genres, platforms, developers, publishers] = await Promise.all([
+      Genre.find({}, { name: 1 }).sort({ name: 1 }).exec(),
+      Platform.find({}, { name: 1 }).sort({ name: 1 }).exec(),
+      Developer.find({}, { name: 1 }).sort({ name: 1 }).exec(),
+      Publisher.find({}, { name: 1 }).sort({ name: 1 }).exec(),
+    ]);
 
     const errors = validationResult(req);
     if (
@@ -301,16 +362,28 @@ exports.game_update_post = [
         prev_name: req.body.prev_name,
         min_time_of_creation,
         max_time_of_creation,
+        genres,
+        platforms,
+        developers,
+        publishers,
         errors: new Map(errors.array().map((error) => [error.path, error.msg])),
       });
       return;
     }
 
-    const game = new Game({
+    const game_details = {
       _id: req.params.id,
       name: req.body.name,
-      time_of_creation: req.body.time_of_creation,
-    });
+    };
+    if (req.body.time_of_creation)
+      game_details.time_of_creation = req.body.time_of_creation;
+    if (req.body.description) game_details.description = req.body.description;
+    if (req.body.genre) game_details.genre = req.body.genre;
+    if (req.body.platform) game_details.platform = req.body.platform;
+    if (req.body.developer) game_details.developer = req.body.developer;
+    if (req.body.publisher) game_details.publisher = req.body.publisher;
+
+    const game = new Game(game_details);
     await Game.findByIdAndUpdate(req.params.id, game).exec();
     res.redirect(game.url);
   }),

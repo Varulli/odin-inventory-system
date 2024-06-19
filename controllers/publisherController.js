@@ -99,10 +99,14 @@ exports.publisher_create_post = [
       return;
     }
 
-    const publisher = new Publisher({
+    const publisher_details = {
       name: req.body.name,
-      time_of_creation: req.body.time_of_creation,
-    });
+    };
+    if (req.body.time_of_creation) {
+      publisher_details.time_of_creation = req.body.time_of_creation;
+    }
+
+    const publisher = new Publisher(publisher_details);
     await publisher.save();
     res.redirect(publisher.url);
   }),
@@ -223,11 +227,15 @@ exports.publisher_update_post = [
       return;
     }
 
-    const publisher = new Publisher({
+    const publisher_details = {
       _id: req.params.id,
       name: req.body.name,
-      time_of_creation: req.body.time_of_creation,
-    });
+    };
+    if (req.body.time_of_creation) {
+      publisher_details.time_of_creation = req.body.time_of_creation;
+    }
+
+    const publisher = new Publisher(publisher_details);
     await Publisher.findByIdAndUpdate(req.params.id, publisher).exec();
     res.redirect(publisher.url);
   }),

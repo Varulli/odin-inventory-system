@@ -6,6 +6,7 @@ const Game = require("../models/game");
 const asyncHandler = require("express-async-handler");
 const { isValidObjectId } = require("mongoose");
 const { checkSchema, validationResult } = require("express-validator");
+const developer = require("../models/developer");
 
 const min_time_of_creation =
   Developer.schema.path("time_of_creation").options.min;
@@ -111,11 +112,15 @@ exports.developer_create_post = [
       return;
     }
 
-    const developer = new Developer({
+    const developer_details = {
       name: req.body.name,
-      time_of_creation: req.body.time_of_creation,
       type: req.body.type,
-    });
+    };
+    if (req.body.time_of_creation) {
+      developer_details.time_of_creation = req.body.time_of_creation;
+    }
+
+    const developer = new Developer(developer_details);
     await developer.save();
     res.redirect(developer.url);
   }),
@@ -247,12 +252,16 @@ exports.developer_update_post = [
       return;
     }
 
-    const developer = new Developer({
+    const developer_details = {
       _id: req.params.id,
       name: req.body.name,
-      time_of_creation: req.body.time_of_creation,
       type: req.body.type,
-    });
+    };
+    if (req.body.time_of_creation) {
+      developer_details.time_of_creation = req.body.time_of_creation;
+    }
+
+    const developer = new Developer(developer_details);
     await Developer.findByIdAndUpdate(req.params.id, developer).exec();
     res.redirect(developer.url);
   }),

@@ -6,15 +6,15 @@ block content
   h2 Time of Creation
   p= developer.time_of_creation
 
-  if developer_games.length
-    h2 Games
-    dl
-      each game in developer_games
-        dt
-          a(href=game.url) #{game.name}
-        dd #{game.description}
-  else
-    p This developer has no games.
+  h2 Games
+    if developer_games.length
+      dl
+        each game in developer_games
+          dt
+            a(href=game.url) #{game.name}
+          dd #{game.description}
+    else
+      p This developer has no games.
 
   a.link-update(href=developer.url+'/update') Update Developer
   a.link-delete(href=developer.url+'/delete') Delete Developer

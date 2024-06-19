@@ -10,7 +10,7 @@ block content
   p= game.description ? game.description : 'N/A'
 
   h2 Genre 
-  if !game.genre
+  if !game.genre || game.genre.length === 0
     p N/A
   else
     p 
@@ -20,7 +20,7 @@ block content
           | , 
 
   h2 Platforms
-  if !game.platform
+  if !game.platform || game.platform.length === 0
     p N/A
   else
     p
@@ -29,13 +29,19 @@ block content
         if index < game.platform.length - 1
           | , 
 
-  h2 Developers
-  p
-    a(href=game.developer.url) #{game.developer.name}
+  h2 Developer
+  if !game.developer
+    p N/A
+  else
+    p
+      a(href=game.developer.url) #{game.developer.name}
 
   h2 Publisher
-  p
-    a(href=game.publisher.url) #{game.publisher.name}
+  if !game.publisher
+    p N/A
+  else
+    p
+      a(href=game.publisher.url) #{game.publisher.name}
 
   a.link-update(href=game.url+'/update') Update Game
   a.link-delete(href=game.url+'/delete') Delete Game

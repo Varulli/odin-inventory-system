@@ -47,13 +47,21 @@ block content
 
     div.form-group
       label(for='developer') Developer:
-      input#developer.form-control(type='text' name='developer' value=(game ? game.developer : ''))
+      select#developer.form-control(name='developer')
+        option(value='') -- Select Developer --
+        if developers
+          each developer in developers
+            option(value=developer._id selected=(game && game.developer === developer._id))= developer.name
       if errors && errors.has('developer')
         p.form-error * #{errors.get('developer')}
 
     div.form-group
       label(for='publisher') Publisher:
-      input#publisher.form-control(type='text' name='publisher' value=(game ? game.publisher : ''))
+      select#publisher.form-control(name='publisher')
+        option(value='') -- Select Publisher --
+        if publishers
+          each publisher in publishers
+            option(value=publisher._id selected=(game && game.publisher === publisher._id))= publisher.name
       if errors && errors.has('publisher')
         p.form-error * #{errors.get('publisher')}
 

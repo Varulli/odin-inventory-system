@@ -88,6 +88,15 @@ exports.game_create_get = asyncHandler(async (req, res, next) => {
 
 // Handle Game create on POST.
 exports.game_create_post = [
+  (req, res, next) => {
+    if (!Array.isArray(req.body.genre))
+      req.body.genre =
+        typeof req.body.genre === "undefined" ? [] : [req.body.genre];
+    if (!Array.isArray(req.body.platform))
+      req.body.platform =
+        typeof req.body.platform === "undefined" ? [] : [req.body.platform];
+    next();
+  },
   checkSchema({
     name: {
       in: ["body"],
@@ -118,8 +127,47 @@ exports.game_create_post = [
       },
       escape: true,
     },
+    description: {
+      in: ["body"],
+      optional: { options: { values: "falsy" } },
+      trim: true,
+      escape: true,
+    },
+    "genre.*": {
+      in: ["body"],
+      escape: true,
+    },
+    "platform.*": {
+      in: ["body"],
+      escape: true,
+    },
+    developer: {
+      in: ["body"],
+      optional: { options: { values: "falsy" } },
+      trim: true,
+      isMongoId: {
+        errorMessage: "Invalid Developer ID",
+      },
+      escape: true,
+    },
+    publisher: {
+      in: ["body"],
+      optional: { options: { values: "falsy" } },
+      trim: true,
+      isMongoId: {
+        errorMessage: "Invalid Publisher ID",
+      },
+      escape: true,
+    },
   }),
   asyncHandler(async (req, res, next) => {
+    const [genres, platforms, developers, publishers] = await Promise.all([
+      Genre.find({}, { name: 1 }).sort({ name: 1 }).exec(),
+      Platform.find({}, { name: 1 }).sort({ name: 1 }).exec(),
+      Developer.find({}, { name: 1 }).sort({ name: 1 }).exec(),
+      Publisher.find({}, { name: 1 }).sort({ name: 1 }).exec(),
+    ]);
+
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       res.render("game_form", {
@@ -127,6 +175,10 @@ exports.game_create_post = [
         game: req.body,
         min_time_of_creation,
         max_time_of_creation,
+        genres,
+        platforms,
+        developers,
+        publishers,
         errors: new Map(errors.array().map((error) => [error.path, error.msg])),
       });
       return;
@@ -135,6 +187,11 @@ exports.game_create_post = [
     const game = new Game({
       name: req.body.name,
       time_of_creation: req.body.time_of_creation,
+      description: req.body.description,
+      genre: req.body.genre,
+      platform: req.body.platform,
+      developer: req.body.developer,
+      publisher: req.body.publisher,
     });
     await game.save();
     res.redirect(game.url);

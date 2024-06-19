@@ -3,6 +3,9 @@ extends layout
 block content 
   h1= title 
 
+  h2 Time of Creation
+  p= publisher.time_of_creation
+
   if publisher_games.length
     h2 Games
     dl

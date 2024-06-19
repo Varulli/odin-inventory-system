@@ -48,6 +48,14 @@ exports.genre_create_post = [
         errorMessage: "Name is a required field",
       },
       escape: true,
+      custom: {
+        options: async (value) => {
+          const genre = await Genre.findOne({ name: value }).exec();
+          return genre
+            ? Promise.reject("Genre already exists")
+            : Promise.resolve();
+        },
+      },
     },
   }),
   asyncHandler(async (req, res, next) => {
@@ -77,7 +85,9 @@ exports.genre_delete_get = asyncHandler(async (req, res, next) => {
 
   const [genre, genre_games] = await Promise.all([
     Genre.findById(req.params.id).exec(),
-    Game.find({ genre: req.params.id }, { name: 1, description: 1 }).exec(),
+    Game.find({ genre: req.params.id }, { name: 1, description: 1 })
+      .sort({ name: 1 })
+      .exec(),
   ]);
   res.render("genre_delete", {
     title: `Delete Genre: ${genre.name}`,
@@ -113,7 +123,11 @@ exports.genre_update_get = asyncHandler(async (req, res, next) => {
   }
 
   const genre = await Genre.findById(req.params.id).exec();
-  res.render("genre_form", { title: "Update Genre", genre });
+  res.render("genre_form", {
+    title: "Update Genre",
+    genre,
+    prev_name: genre.name,
+  });
 });
 
 // Handle Genre update on POST.
@@ -127,6 +141,14 @@ exports.genre_update_post = [
         errorMessage: "Name is a required field",
       },
       escape: true,
+      custom: {
+        options: async (value) => {
+          const genre = await Genre.findOne({ name: value }).exec();
+          return genre
+            ? Promise.reject("Genre already exists")
+            : Promise.resolve();
+        },
+      },
     },
   }),
   asyncHandler(async (req, res, next) => {
@@ -134,6 +156,23 @@ exports.genre_update_post = [
       const err = new Error("Invalid Genre ID");
       err.status = 404;
       return next(err);
+    }
+
+    const errors = validationResult(req);
+    if (
+      !errors.isEmpty() &&
+      (errors.array().length > 1 ||
+        !errors.mapped().name ||
+        errors.mapped().name.value !== req.body.prev_name)
+    ) {
+      const genre = await Genre.findById(req.params.id).exec();
+      res.render("genre_form", {
+        title: "Update Genre",
+        genre: req.body,
+        prev_name: req.body.prev_name,
+        errors: new Map(errors.array().map((error) => [error.path, error.msg])),
+      });
+      return;
     }
 
     const genre = new Genre({

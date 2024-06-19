@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const DeveloperSchema = new Schema({
   name: { type: String, required: true, max: 100 },
   time_of_creation: { type: Number, min: 1960, max: DateTime.local().year },
-  type: { type: String, required: true, enum: ["N/A", "Indie", "Studio"] },
+  type: { type: String, required: true, enum: ["Indie", "Studio"] },
 });
 
 DeveloperSchema.virtual("url").get(function () {

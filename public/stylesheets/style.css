@@ -6,4 +6,22 @@
 
 :root {
   font: 16px "Lucida Grande", Helvetica, Arial, sans-serif;
+  --primary-color: white;
+  --secondary-color: #121212;
+  --tertiary-color: #0d6efd;
+  --quaternary-color: #adb5bd;
+}
+
+@media screen and (prefers-color-scheme: dark) {
+  :root {
+    --primary-color: #121212;
+    --secondary-color: white;
+    --tertiary-color: #0b60df;
+    --quaternary-color: #444444;
+  }
+}
+
+body {
+  background-color: var(--quaternary-color);
+  display: flex;
 }

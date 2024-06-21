@@ -5,18 +5,20 @@
 }
 
 :root {
-  font: 16px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 18px "Lucida Grande", Helvetica, Arial, sans-serif;
   --primary-color: white;
   --secondary-color: #121212;
   --tertiary-color: #0d6efd;
+  --tertiary-color-alt: #0b60df;
   --quaternary-color: #adb5bd;
 }
 
 @media screen and (prefers-color-scheme: dark) {
   :root {
     --primary-color: #121212;
-    --secondary-color: white;
+    --secondary-color: rgb(219, 219, 219);
     --tertiary-color: #0b60df;
+    --tertiary-color-alt: #0d6efd;
     --quaternary-color: #444444;
   }
 }
@@ -24,4 +26,52 @@
 body {
   background-color: var(--quaternary-color);
   display: flex;
+}
+
+nav {
+  background-color: var(--tertiary-color);
+  color: var(--primary-color);
+  gap: .5rem;
+  height: 100vh;
+  position: fixed;
+  box-shadow: .5rem 0 .5rem rgba(0, 0, 0, .1);
+}
+
+nav menu {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+}
+
+nav menu hr {
+  margin: .4rem 0
+}
+
+nav menu li a {
+  color: var(--primary-color);
+  text-decoration: none;
+  display: flex;
+  gap: .5rem;
+  align-items: center;
+  line-height: 0;
+  padding: .5rem 1.5rem .5rem .5rem;
+  font-weight: bold;
+  transition: background-color .2s;
+}
+
+nav menu li a:hover {
+  background-color: var(--tertiary-color-alt);
+}
+
+nav menu li a.active {
+  background-color: var(--tertiary-color);
+}
+
+.material-symbols-outlined {
+  /* margin-right: .4rem; */
+  /* transform: translate(0, .2rem); */
+}
+
+.content {
+  padding: 2rem 5rem;
 }

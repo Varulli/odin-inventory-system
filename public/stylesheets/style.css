@@ -15,8 +15,8 @@
 
 @media screen and (prefers-color-scheme: dark) {
   :root {
-    --primary-color: #121212;
-    --secondary-color: rgb(219, 219, 219);
+    --primary-color: #2b2b2b;
+    --secondary-color: rgb(241, 241, 241);
     --tertiary-color: #0b60df;
     --tertiary-color-alt: #0d6efd;
     --quaternary-color: #444444;
@@ -33,7 +33,7 @@ body {
   overflow: hidden;
   background-color: var(--tertiary-color);
   color: var(--primary-color);
-  box-shadow: inset -.5rem 0 .5rem rgba(0, 0, 0, .1);
+  box-shadow: inset -.5rem 0 .5rem rgba(0, 0, 0, .2);
   height: 100%;
   width: 2.4rem;
   transition: width .3s;
@@ -84,5 +84,24 @@ nav menu li a.active {
 }
 
 .content {
-  padding: 2rem 5rem;
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  width: 100%;
+  height: 100%;
+  margin: 2rem 5rem;
+  padding: 2rem;
+}
+
+h1 {
+  margin-bottom: 1rem;
+}
+
+ul li {
+  margin: .5rem 1.5rem;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+ul li a {
+  text-decoration: none;
 }

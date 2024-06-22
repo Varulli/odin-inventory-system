@@ -6,20 +6,20 @@ block content
   form#form(method='POST')
     div.form-group
       label(for='name') Name:
-      input#name.form-control(type='text' name='name' required value=(game ? game.name : ''))
-      input#prev_name.form-control(type='hidden' name='prev_name' value=prev_name)
+      input#name(type='text' name='name' required value=(game ? game.name : ''))
+      input#prev_name(type='hidden' name='prev_name' value=prev_name)
       if errors && errors.has('name')
         p.form-error * #{errors.get('name')}
 
     div.form-group
       label(for='time_of_creation') Time of Creation:
-      input#time_of_creation.form-control(type='number' name='time_of_creation' value=(game ? game.time_of_creation : max_time_of_creation) placeholder='YYYY' min=min_time_of_creation max=max_time_of_creation step='1')
+      input#time_of_creation(type='number' name='time_of_creation' value=(game ? game.time_of_creation : max_time_of_creation) placeholder='YYYY' min=min_time_of_creation max=max_time_of_creation step='1')
       if errors && errors.has('time_of_creation')
         p.form-error * #{errors.get('time_of_creation')}
 
     div.form-group
       label(for='description') Description:
-      textarea#description.form-control(name='description' rows='5')= game ? game.description : ''
+      textarea#description(name='description' rows='5')= game ? game.description : ''
       if errors && errors.has('description')
         p.form-error * #{errors.get('description')}
 
@@ -47,7 +47,7 @@ block content
 
     div.form-group
       label(for='developer') Developer:
-      select#developer.form-control(name='developer')
+      select#developer(name='developer')
         option(value='') -- Select Developer --
         if developers
           each developer in developers
@@ -57,13 +57,17 @@ block content
 
     div.form-group
       label(for='publisher') Publisher:
-      select#publisher.form-control(name='publisher')
+      select#publisher(name='publisher')
         option(value='') -- Select Publisher --
         if publishers
           each publisher in publishers
             option(value=publisher._id selected=(game && game.publisher === publisher._id))= publisher.name
       if errors && errors.has('publisher')
         p.form-error * #{errors.get('publisher')}
+
+    div.form-group
+      label(for='cover_art') Cover Art:
+      input#cover_art(type='text' name='cover_art' value=(game ? game.cover_art : ''))
 
 block actions  
   button.update(type='submit' form='form')

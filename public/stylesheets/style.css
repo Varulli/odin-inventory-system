@@ -233,3 +233,9 @@ a {
 .form-check input {
   margin-right: .3rem;
 }
+
+.form-error {
+  color: var(--danger-color);
+  font-weight: bold;
+  margin: .2rem 0;
+}

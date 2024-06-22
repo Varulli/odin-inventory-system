@@ -6,14 +6,14 @@ block content
   form#form(method='POST')
     div.form-group
       label(for='name') Name:
-      input#name.form-control(type='text' name='name' required value=(publisher ? publisher.name : ''))
-      input#prev_name.form-control(type='hidden' name='prev_name' value=prev_name)
+      input#name(type='text' name='name' required value=(publisher ? publisher.name : ''))
+      input#prev_name(type='hidden' name='prev_name' value=prev_name)
       if errors && errors.has('name')
         p.form-error * #{errors.get('name')}
 
     div.form-group
       label(for='time_of_creation') Time of Creation:
-      input#time_of_creation.form-control(type='number' name='time_of_creation' value=(publisher ? publisher.time_of_creation : max_time_of_creation) placeholder='YYYY' min=min_time_of_creation max=max_time_of_creation step='1')
+      input#time_of_creation(type='number' name='time_of_creation' value=(publisher ? publisher.time_of_creation : max_time_of_creation) placeholder='YYYY' min=min_time_of_creation max=max_time_of_creation step='1')
       if errors && errors.has('time_of_creation')
         p.form-error * #{errors.get('time_of_creation')}
 

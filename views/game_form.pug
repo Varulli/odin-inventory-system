@@ -19,7 +19,7 @@ block content
 
     div.form-group
       label(for='description') Description:
-      textarea#description.form-control(name='description' rows='5' cols='50')= game ? game.description : ''
+      textarea#description.form-control(name='description' rows='5')= game ? game.description : ''
       if errors && errors.has('description')
         p.form-error * #{errors.get('description')}
 

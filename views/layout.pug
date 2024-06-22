@@ -6,53 +6,55 @@ html
     link(rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200")
   body
     block sidebar
-      nav
-        menu 
-          li 
-            a(href='/inventory')
-              span.material-symbols-outlined home 
-              span Home
-          li
-            a(href="/inventory/games")
-              span.material-symbols-outlined joystick
-              span Games
-          li
-            a(href="/inventory/genres")
-              span.material-symbols-outlined playing_cards
-              span Genres
-          li 
-            a(href="/inventory/platforms")
-              span.material-symbols-outlined devices
-              span Platforms
-          li
-            a(href="/inventory/developers")
-              span.material-symbols-outlined deployed_code_account
-              span Developers
-          li
-            a(href="/inventory/publishers")
-              span.material-symbols-outlined import_contacts
-              span Publishers
-          hr
-          li
-            a(href="/inventory/game/create")
-              span.material-symbols-outlined add_circle
-              | Add Game
-          li
-            a(href="/inventory/genre/create")
-              span.material-symbols-outlined add_circle
-              | Add Genre
-          li 
-            a(href="/inventory/platform/create")
-              span.material-symbols-outlined add_circle
-              | Add Platform
-          li
-            a(href="/inventory/developer/create")
-              span.material-symbols-outlined add_circle
-              | Add Developer
-          li
-            a(href="/inventory/publisher/create")
-              span.material-symbols-outlined add_circle
-              | Add Publisher
+      div.sidebar
+        //- div.cover
+        nav
+          menu 
+            li 
+              a(href='/inventory')
+                span.material-symbols-outlined home 
+                | Home
+            li
+              a(href="/inventory/games")
+                span.material-symbols-outlined joystick
+                | Games
+            li
+              a(href="/inventory/genres")
+                span.material-symbols-outlined playing_cards
+                | Genres
+            li 
+              a(href="/inventory/platforms")
+                span.material-symbols-outlined devices
+                | Platforms
+            li
+              a(href="/inventory/developers")
+                span.material-symbols-outlined deployed_code_account
+                | Developers
+            li
+              a(href="/inventory/publishers")
+                span.material-symbols-outlined import_contacts
+                | Publishers
+            hr
+            li
+              a(href="/inventory/game/create")
+                span.material-symbols-outlined add_circle
+                | Add Game
+            li
+              a(href="/inventory/genre/create")
+                span.material-symbols-outlined add_circle
+                | Add Genre
+            li 
+              a(href="/inventory/platform/create")
+                span.material-symbols-outlined add_circle
+                | Add Platform
+            li
+              a(href="/inventory/developer/create")
+                span.material-symbols-outlined add_circle
+                | Add Developer
+            li
+              a(href="/inventory/publisher/create")
+                span.material-symbols-outlined add_circle
+                | Add Publisher
 
     div.content
       block content

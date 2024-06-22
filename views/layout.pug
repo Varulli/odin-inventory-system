@@ -5,9 +5,8 @@ html
     link(rel='stylesheet' href='/stylesheets/style.css')
     link(rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200")
   body
-    block sidebar
-      div.sidebar
-        //- div.cover
+    section.sidebar
+      block sidebar
         nav
           menu 
             li 
@@ -56,5 +55,9 @@ html
                 span.material-symbols-outlined add_circle
                 | Add Publisher
 
-    div.content
-      block content
+    main 
+      section.content
+        block content
+
+      section.actions
+        block actions

@@ -10,7 +10,8 @@
   --secondary-color: #121212;
   --tertiary-color: #0d6efd;
   --tertiary-color-alt: #0b60df;
-  --quaternary-color: #adb5bd;
+  --quaternary-color: #cdd5dd;
+  --shadow-color: rgba(0, 0, 0, .2);
 }
 
 @media screen and (prefers-color-scheme: dark) {
@@ -20,6 +21,7 @@
     --tertiary-color: #0b60df;
     --tertiary-color-alt: #0d6efd;
     --quaternary-color: #444444;
+    --shadow-color: rgba(255, 255, 255, .2);
   }
 }
 
@@ -83,17 +85,34 @@ nav menu li a.active {
   /* transform: translate(0, .2rem); */
 }
 
+main {
+  width: 100%;
+  margin: 2rem 5rem;
+}
+
 .content {
   background-color: var(--primary-color);
   color: var(--secondary-color);
-  width: 100%;
-  height: 100%;
-  margin: 2rem 5rem;
   padding: 2rem;
+  box-shadow: 0 0 1rem var(--shadow-color);
 }
 
 h1 {
   margin-bottom: 1rem;
+}
+
+h2 {
+  margin: 1rem 0 .2rem;
+  font-size: 1.2rem;
+}
+
+p {
+  margin: 0 1rem
+}
+
+.delete-message {
+  margin: 1.5rem 0 0;
+  font-weight: bold;
 }
 
 ul li {
@@ -102,6 +121,10 @@ ul li {
   text-decoration: none;
 }
 
-ul li a {
+a {
   text-decoration: none;
+}
+
+.content a:hover {
+  text-decoration: underline;
 }

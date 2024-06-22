@@ -3,7 +3,7 @@ extends layout
 block content
   h1= title
 
-  form(method='POST')
+  form#form(method='POST')
     div.form-group
       label(for='name') Name:
       input#name.form-control(type='text' name='name' required value=(developer ? developer.name : ''))
@@ -25,4 +25,6 @@ block content
       if errors && errors.has('type')
         p.form-error * #{errors.get('type')}
 
-    button(type='submit') Submit
+block actions  
+  button.update(type='submit' form='form')
+    a Submit

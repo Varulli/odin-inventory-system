@@ -12,6 +12,8 @@
   --tertiary-color-alt: #0b60df;
   --quaternary-color: #cdd5dd;
   --shadow-color: rgba(0, 0, 0, .2);
+  --danger-color: #dc3545;
+  --danger-color-alt: #bd2130;
 }
 
 @media screen and (prefers-color-scheme: dark) {
@@ -22,6 +24,8 @@
     --tertiary-color-alt: #0d6efd;
     --quaternary-color: #444444;
     --shadow-color: rgba(255, 255, 255, .2);
+    --danger-color: #bd2130;
+    --danger-color-alt: #dc3545;
   }
 }
 
@@ -32,10 +36,10 @@ body {
 
 .sidebar {
   position: fixed;
+  z-index: 1;
   overflow: hidden;
   background-color: var(--tertiary-color);
-  color: var(--primary-color);
-  box-shadow: inset -.5rem 0 .5rem rgba(0, 0, 0, .2);
+  box-shadow: .5rem 0 .5rem var(--shadow-color);
   height: 100%;
   width: 2.4rem;
   transition: width .3s;
@@ -80,17 +84,14 @@ nav menu li a.active {
   background-color: var(--tertiary-color);
 }
 
-.material-symbols-outlined {
-  /* margin-right: .4rem; */
-  /* transform: translate(0, .2rem); */
-}
-
 main {
   width: 100%;
   margin: 2rem 5rem;
 }
 
 .content {
+  position: relative;
+  z-index: 0;
   background-color: var(--primary-color);
   color: var(--secondary-color);
   padding: 2rem;
@@ -102,12 +103,12 @@ h1 {
 }
 
 h2 {
-  margin: 1rem 0 .2rem;
+  margin: 1rem 1rem .2rem;
   font-size: 1.2rem;
 }
 
 p {
-  margin: 0 1rem
+  margin: 0 2rem
 }
 
 .delete-message {
@@ -127,4 +128,59 @@ a {
 
 .content a:hover {
   text-decoration: underline;
+}
+
+.actions {
+  display: flex;
+  gap: .5rem;
+  align-items: flex-start;
+  margin-left: 1rem;
+}
+
+.actions button {
+  border: none;
+  border-radius: 0 0 0 .5rem;
+}
+
+.actions a {
+  display: block;
+  color: var(--primary-color);
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 0 0 0 .5rem;
+}
+
+.update a,
+.delete a {
+  transition: all .2s;
+}
+
+.update a {
+  background-color: var(--tertiary-color);
+}
+
+.update a:hover {
+  background-color: var(--tertiary-color-alt);
+}
+
+.update a:active {
+  background-color: var(--tertiary-color);
+}
+
+.delete a {
+  background-color: var(--danger-color);
+}
+
+.delete a:hover {
+  background-color: var(--danger-color-alt);
+}
+
+.delete a:active {
+  background-color: var(--danger-color);
+}
+
+.update a:hover,
+.delete a:hover {
+  padding-top: 1.5rem;
 }

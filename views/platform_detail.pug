@@ -13,5 +13,8 @@ block content
   else
     p This platform has no games.
 
-  a.link-update(href=platform.url+'/update') Update Platform
-  a.link-delete(href=platform.url+'/delete') Delete Platform
+block actions
+  button.update
+    a(href=platform.url+'/update') Update Platform
+  button.delete
+    a(href=platform.url+'/delete') Delete Platform

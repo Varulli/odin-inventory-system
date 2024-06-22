@@ -16,5 +16,8 @@ block content
   else
     p This publisher has no games.
 
-  a.link-update(href=publisher.url+'/update') Update Publisher
-  a.link-delete(href=publisher.url+'/delete') Delete Publisher
+block actions
+  button.update
+    a(href=publisher.url+'/update') Update Publisher
+  button.delete
+    a(href=publisher.url+'/delete') Delete Publisher

@@ -7,14 +7,17 @@ block content
   p= developer.time_of_creation
 
   h2 Games
-    if developer_games.length
-      dl
-        each game in developer_games
-          dt
-            a(href=game.url) #{game.name}
-          dd #{game.description}
-    else
-      p This developer has no games.
+  if developer_games.length
+    dl
+      each game in developer_games
+        dt
+          a(href=game.url) #{game.name}
+        dd #{game.description}
+  else
+    p This developer has no games.
 
-  a.link-update(href=developer.url+'/update') Update Developer
-  a.link-delete(href=developer.url+'/delete') Delete Developer
+block actions
+  button.update
+    a(href=developer.url+'/update') Update Developer
+  button.delete
+    a(href=developer.url+'/delete') Delete Developer

@@ -120,6 +120,7 @@ exports.game_create_post = [
     time_of_creation: {
       in: ["body"],
       trim: true,
+      optional: { options: { values: "falsy" } },
       isInt: {
         options: {
           min: min_time_of_creation,
@@ -131,8 +132,8 @@ exports.game_create_post = [
     },
     description: {
       in: ["body"],
-      optional: { options: { values: "falsy" } },
       trim: true,
+      optional: { options: { values: "falsy" } },
       escape: true,
     },
     "genre.*": {
@@ -295,6 +296,7 @@ exports.game_update_post = [
     time_of_creation: {
       in: ["body"],
       trim: true,
+      optional: { options: { values: "falsy" } },
       isInt: {
         options: {
           min: min_time_of_creation,
@@ -306,8 +308,8 @@ exports.game_update_post = [
     },
     description: {
       in: ["body"],
-      optional: { options: { values: "falsy" } },
       trim: true,
+      optional: { options: { values: "falsy" } },
       escape: true,
     },
     "genre.*": {
@@ -383,8 +385,10 @@ exports.game_update_post = [
     if (req.body.description) game_details.description = req.body.description;
     if (req.body.genre) game_details.genre = req.body.genre;
     if (req.body.platform) game_details.platform = req.body.platform;
-    if (req.body.developer) game_details.developer = req.body.developer;
-    if (req.body.publisher) game_details.publisher = req.body.publisher;
+    game_details.developer = req.body.developer || null;
+    game_details.publisher = req.body.publisher || null;
+
+    console.log(game_details);
 
     const game = new Game(game_details);
     await Game.findByIdAndUpdate(req.params.id, game).exec();

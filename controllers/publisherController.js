@@ -76,6 +76,7 @@ exports.publisher_create_post = [
     time_of_creation: {
       in: ["body"],
       trim: true,
+      optional: { options: { values: "falsy" } },
       isInt: {
         options: {
           min: min_time_of_creation,
@@ -192,6 +193,7 @@ exports.publisher_update_post = [
     time_of_creation: {
       in: ["body"],
       trim: true,
+      optional: { options: { values: "falsy" } },
       isInt: {
         options: {
           min: min_time_of_creation,

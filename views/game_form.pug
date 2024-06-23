@@ -65,10 +65,6 @@ block content
       if errors && errors.has('publisher')
         p.form-error * #{errors.get('publisher')}
 
-    div.form-group
-      label(for='cover_art') Cover Art:
-      input#cover_art(type='text' name='cover_art' value=(game ? game.cover_art : ''))
-
 block actions  
   button.update(type='submit' form='form')
     a Submit

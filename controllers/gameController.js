@@ -9,6 +9,8 @@ const Publisher = require("../models/publisher");
 const asyncHandler = require("express-async-handler");
 const { isValidObjectId } = require("mongoose");
 const { checkSchema, validationResult } = require("express-validator");
+const multer = require("multer");
+const upload = multer({ dest: "../public/images" });
 
 const min_time_of_creation = Game.schema.path("time_of_creation").options.min;
 const max_time_of_creation = Game.schema.path("time_of_creation").options.max;
@@ -335,6 +337,7 @@ exports.game_update_post = [
       escape: true,
     },
   }),
+  upload.single("cover_art"),
   asyncHandler(async (req, res, next) => {
     if (!isValidObjectId(req.params.id)) {
       const err = new Error("Invalid Game ID");
@@ -349,13 +352,13 @@ exports.game_update_post = [
       Publisher.find({}, { name: 1 }).sort({ name: 1 }).exec(),
     ]);
 
-    const errors = validationResult(req);
-    if (
-      !errors.isEmpty() &&
-      (errors.array().length > 1 ||
-        !errors.mapped().name ||
-        errors.mapped().name.value !== req.body.prev_name)
-    ) {
+    const errors = validationResult(req)
+      .array()
+      .filter(
+        (error) => error.path !== "name" || error.value !== req.body.prev_name
+      );
+
+    if (errors.length > 0) {
       res.render("game_form", {
         title: "Update Game",
         game: req.body,
@@ -366,7 +369,7 @@ exports.game_update_post = [
         platforms,
         developers,
         publishers,
-        errors: new Map(errors.array().map((error) => [error.path, error.msg])),
+        errors: new Map(errors.map((error) => [error.path, error.msg])),
       });
       return;
     }

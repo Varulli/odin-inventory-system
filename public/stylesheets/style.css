@@ -21,32 +21,33 @@
     --primary-color: #2b2b2b;
     --secondary-color: rgb(241, 241, 241);
     --tertiary-color: #0b60df;
-    --tertiary-color-alt: #0d6efd;
+    --tertiary-color-alt: #0b54c2;
     --quaternary-color: #444444;
     --shadow-color: rgba(255, 255, 255, .2);
     --danger-color: #bd2130;
-    --danger-color-alt: #dc3545;
+    --danger-color-alt: #921421;
   }
 }
 
 body {
   background-color: var(--quaternary-color);
-  display: flex;
 }
 
 .sidebar {
   position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
   z-index: 2;
   overflow: hidden;
   background-color: var(--tertiary-color);
   box-shadow: .5rem 0 .5rem var(--shadow-color);
-  height: 100%;
-  width: 2.4rem;
-  transition: width .3s;
+  max-width: 2.4rem;
+  transition: max-width .3s;
 }
 
 .sidebar:hover {
-  width: 12rem;
+  max-width: 12rem;
 }
 
 nav {
@@ -85,7 +86,6 @@ nav menu li a.active {
 }
 
 main {
-  width: 100%;
   margin: 2rem 5rem;
 }
 
@@ -156,6 +156,7 @@ a {
 .actions button {
   border: none;
   border-radius: 0 0 0 .5rem;
+  cursor: pointer;
 }
 
 .actions a {
@@ -173,11 +174,11 @@ a {
 }
 
 .update a {
-  background-color: var(--tertiary-color);
+  background-color: var(--tertiary-color-alt);
 }
 
 .update a:hover {
-  background-color: var(--tertiary-color-alt);
+  background-color: var(--tertiary-color);
 }
 
 .update a:active {
@@ -185,11 +186,11 @@ a {
 }
 
 .delete a {
-  background-color: var(--danger-color);
+  background-color: var(--danger-color-alt);
 }
 
 .delete a:hover {
-  background-color: var(--danger-color-alt);
+  background-color: var(--danger-color);
 }
 
 .delete a:active {

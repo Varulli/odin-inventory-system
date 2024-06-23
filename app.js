@@ -28,11 +28,11 @@ const inventoryRouter = require("./routes/inventory");
 var app = express();
 
 // rate limiter setup
-// const limiter = RateLimit({
-//   windowMs: 1 * 60 * 1000, // 1 minute
-//   max: 30, // limit each IP to 30 requests per windowMs
-// });
-// app.use(limiter);
+const limiter = RateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 30, // limit each IP to 30 requests per windowMs
+});
+app.use(limiter);
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));

@@ -233,13 +233,12 @@ exports.developer_update_post = [
       return next(err);
     }
 
-    const errors = validationResult(req);
-    if (
-      !errors.isEmpty() &&
-      (errors.array().length > 1 ||
-        !errors.mapped().name ||
-        errors.mapped().name.value !== req.body.prev_name)
-    ) {
+    const errors = validationResult(req)
+      .array()
+      .filter(
+        (error) => error.path !== "name" || error.value !== req.body.prev_name
+      );
+    if (errors.length > 0) {
       res.render("developer_form", {
         title: "Update Developer",
         developer: req.body,
@@ -247,7 +246,7 @@ exports.developer_update_post = [
         min_time_of_creation,
         max_time_of_creation,
         types,
-        errors: new Map(errors.array().map((error) => [error.path, error.msg])),
+        errors: new Map(errors.map((error) => [error.path, error.msg])),
       });
       return;
     }

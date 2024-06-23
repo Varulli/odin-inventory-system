@@ -388,8 +388,6 @@ exports.game_update_post = [
     game_details.developer = req.body.developer || null;
     game_details.publisher = req.body.publisher || null;
 
-    console.log(game_details);
-
     const game = new Game(game_details);
     await Game.findByIdAndUpdate(req.params.id, game).exec();
     res.redirect(game.url);

@@ -51,7 +51,7 @@ block content
         option(value='') -- Select Developer --
         if developers
           each developer in developers
-            option(value=developer._id selected=(game && game.developer === developer._id))= developer.name
+            option(value=developer._id selected=(game && game.developer && game.developer.toString() === developer._id.toString()))= developer.name
       if errors && errors.has('developer')
         p.form-error * #{errors.get('developer')}
 
@@ -61,7 +61,7 @@ block content
         option(value='') -- Select Publisher --
         if publishers
           each publisher in publishers
-            option(value=publisher._id selected=(game && game.publisher === publisher._id))= publisher.name
+            option(value=publisher._id selected=(game && game.publisher && game.publisher.toString() === publisher._id.toString()))= publisher.name
       if errors && errors.has('publisher')
         p.form-error * #{errors.get('publisher')}
 

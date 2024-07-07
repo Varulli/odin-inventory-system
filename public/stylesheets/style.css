@@ -153,7 +153,7 @@ a {
   margin-left: 1rem;
 }
 
-.actions button {
+/* .actions button {
   border: none;
   border-radius: 0 0 0 .5rem;
   cursor: pointer;
@@ -166,39 +166,47 @@ a {
   font-size: 1rem;
   font-weight: bold;
   border-radius: 0 0 0 .5rem;
-}
+} */
 
-.update a,
-.delete a {
+.update,
+.delete {
+  display: block;
+  color: var(--primary-color);
+  border: none;
+  border-radius: 0 0 0 .5rem;
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
   transition: all .2s;
 }
 
-.update a {
+.update {
   background-color: var(--tertiary-color-alt);
 }
 
-.update a:hover {
+.update:hover {
   background-color: var(--tertiary-color);
 }
 
-.update a:active {
+.update:active {
   background-color: var(--tertiary-color);
 }
 
-.delete a {
+.delete {
   background-color: var(--danger-color-alt);
 }
 
-.delete a:hover {
+.delete:hover {
   background-color: var(--danger-color);
 }
 
-.delete a:active {
+.delete:active {
   background-color: var(--danger-color);
 }
 
-.update a:hover,
-.delete a:hover {
+.update:hover,
+.delete:hover {
   padding-top: 1.5rem;
 }
 

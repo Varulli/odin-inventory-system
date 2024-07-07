@@ -44,7 +44,5 @@ block content
       a(href=game.publisher.url) #{game.publisher.name}
 
 block actions
-  button.update
-    a(href=game.url+'/update') Update Game
-  button.delete
-    a(href=game.url+'/delete') Delete Game
+  a.update(href=game.url+'/update') Update Game
+  a.delete(href=game.url+'/delete') Delete Game

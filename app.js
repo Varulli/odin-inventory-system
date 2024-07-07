@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
@@ -12,9 +14,7 @@ const helmet = require("helmet");
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
 
-const dev_uri =
-  "mongodb+srv://aleemcon:LwD6InpETs6yMaBe@cluster0.cg2uxt1.mongodb.net/inventory?retryWrites=true&w=majority&appName=Cluster0";
-const uri = process.env.MONGODB_URI || dev_uri;
+const uri = process.env.MONGODB_URI || process.env.DEV_MONGODB_URI;
 
 main().catch((err) => console.log(err));
 
